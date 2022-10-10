@@ -1,6 +1,3 @@
-//Guidance Documentation (if interested)
-//https://www.tutorialandexample.com/queue-data-structure
-
 public class JunQueue {
     private String[] queue;
     private int trackQueuePosition;
@@ -8,10 +5,12 @@ public class JunQueue {
     public JunQueue() {
         //constructor that takes no parameter but initializes an empty list
         trackQueuePosition = 0;
-        queue = new String[1]; // prints null
+        queue = new String[1];
     }
 
     public JunQueue(String[] initial) {
+        trackQueuePosition = initial.length;
+        queue = initial;
     }
 
     public void enqueue(String value) {
@@ -22,11 +21,11 @@ public class JunQueue {
         //creates list twice as big when necessary
         if (trackQueuePosition == queue.length) {
             String[] newQueue = new String[queue.length * 2];
-            //No extra methods, System.arraycopy is cheating even if the logic is somewhat simple
-            System.arraycopy(queue, 0, newQueue, 0, queue.length);
+            for (int i = 0; i < queue.length; i++){
+                newQueue[i] = this.queue[i];
+            }
             this.queue = newQueue;
         }
-
         this.queue[trackQueuePosition] = value;
         trackQueuePosition += 1;
     }
