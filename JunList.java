@@ -1,14 +1,14 @@
 public class JunList {
-    private int[] list;
+    private Integer[] list;
     private int trackListPosition;
 
     public JunList() {
         //constructor that takes no parameter but initializes an empty list
         trackListPosition = 0;
-        list = new int[1];
+        list = new Integer[1];
     }
 
-    public JunList(int[] initial) {
+    public JunList(Integer[] initial) {
         trackListPosition = initial.length;
         list = initial;
     }
@@ -16,39 +16,42 @@ public class JunList {
     public void append(int value) {
         //creates list twice as big when necessary
         if (trackListPosition == list.length) {
-            int[] newList = new int[list.length * 2];
-            for (int i = 0; i < list.length; i++) {
-                newList[i] = this.list[i];
+            Integer[] temporaryList = new Integer[trackListPosition * 2];
+            for (int i = 0; i < trackListPosition; i++) {
+                temporaryList[i] = list[i];
             }
-            this.list = newList;
+            list = temporaryList;
         }
-        this.list[trackListPosition] = value;
+        list[trackListPosition] = value;
         trackListPosition += 1;
     }
 
     public int get(int index) {
-        return this.list[index];
+        if (index > trackListPosition || index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            return list[index];
+        }
     }
 
     public void add(int position, int value) {
-        //creates list twice as big when necessary
         if (trackListPosition == list.length) {
-            int[] newList = new int[list.length * 2];
-            for (int i = 0; i < list.length; ++i) {
+            Integer[] temporaryList = new Integer[trackListPosition * 2];
+            for (int i = 0; i < list.length + 1; i++) {
                 if (i < position) {
-                    newList[i] = list[i];
-                } else if (position == i) {
-                    newList[i] = value;
+                    temporaryList[i] = list[i];
+                } else if (i == position) {
+                    temporaryList[i] = value;
                 } else {
-                    newList[i] = list[i - 1];
+                    temporaryList[i] = list[i - 1];
                 }
             }
-            this.list = newList;
+            list = temporaryList;
         } else {
             for (int i = trackListPosition; i > position; i--) {
                 list[i] = list[i - 1];
             }
-            this.list[position] = value;
+            list[position] = value;
         }
         trackListPosition += 1;
     }
@@ -56,15 +59,15 @@ public class JunList {
     public void prepend(int value) {
         //creates list twice as big when necessary
         if (trackListPosition == list.length) {
-            int[] newList = new int[list.length * 2];
-            for (int i = 0; i < list.length + 1; i++) {
+            Integer[] temporaryList = new Integer[trackListPosition * 2];
+            for (int i = 0; i < trackListPosition + 1; i++) {
                 if (i == 0) {
-                    newList[i] = value;
+                    temporaryList[i] = value;
                 } else {
-                    newList[i] = list[i - 1];
+                    temporaryList[i] = list[i - 1];
                 }
             }
-            this.list = newList;
+            list = temporaryList;
         } else {
             for (int i = trackListPosition; i >= 0; i--) {
                 if (i == 0) {
@@ -78,15 +81,18 @@ public class JunList {
     }
 
     public void remove(int position) {
-        for (int i = position; i < list.length - 1; i++) {
+        if (list[position] == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        for (int i = position; i < trackListPosition; i++) {
             list[i] = list[i + 1];
         }
-        list[list.length - 1] = 0;
+        list[trackListPosition] = null;
         trackListPosition -= 1;
     }
 
     public void empty() {
-        this.list = new int[1];
+        list = new Integer[1];
         trackListPosition = 0;
     }
 
@@ -108,7 +114,7 @@ public class JunList {
     //check position of first appearance of value. return -1 if not found in list
     public int indexOf(int value) {
         int position = -1;
-        for (int i = 0; i < list.length; ++i) {
+        for (int i = 0; i < trackListPosition; ++i) {
             if (list[i] == value) {
                 position = i;
                 break;

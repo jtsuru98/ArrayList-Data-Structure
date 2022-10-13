@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class JunStack {
     private String[] stack;
     private int trackStackPosition;
@@ -17,27 +15,23 @@ public class JunStack {
 
     public void push(String value) {
         //creates list twice as big when necessary
-        if (value.isEmpty()) {
-            return;
-        }
-
         if (trackStackPosition == stack.length) {
-            String[] newStack = new String[stack.length * 2];
+            String[] temporaryStack = new String[stack.length * 2];
             for (int i = 0; i < stack.length; i++) {
-                newStack[i] = this.stack[i];
+                temporaryStack[i] = stack[i];
 
             }
-            this.stack = newStack;
+            stack = temporaryStack;
         }
-        this.stack[trackStackPosition] = value;
+        stack[trackStackPosition] = value;
         trackStackPosition += 1;
     }
 
     public String pop() {
         if (trackStackPosition > 0) {
-            String toPop = this.stack[trackStackPosition - 1];
+            String toPop = stack[trackStackPosition - 1];
 
-            this.stack[trackStackPosition - 1] = null;
+            stack[trackStackPosition - 1] = null;
             trackStackPosition -= 1;
 
             return toPop;
@@ -52,7 +46,7 @@ public class JunStack {
 
     public String peep() {
         if (trackStackPosition > 0) {
-            return this.stack[trackStackPosition - 1];
+            return stack[trackStackPosition - 1];
         } else {
             return null;
         }
