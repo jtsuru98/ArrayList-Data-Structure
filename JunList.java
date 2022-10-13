@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class JunList {
     private int[] list;
     private int trackListPosition;
